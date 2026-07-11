@@ -1,7 +1,7 @@
 # PCA_withGENESIS
 Pipeline to compute PCA with the R package GENESIS, with plotting and diagnostic logic implemented
 
-For installing genesis and related needed packages:
+For installing genesis and related needed packages using conda (assuming here that you have already downloaded miniconda3 in your machine):
 
 ```
 #get things ready to run PC-Air and PC-Relate 
