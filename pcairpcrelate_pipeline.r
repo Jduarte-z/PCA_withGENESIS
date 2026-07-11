@@ -58,10 +58,10 @@ pcrel_r2_rds     <- "mypcrel_r2_rds"
 #pending to make the pcrel_r2_mat_rds that is in kinship scale 2, for the h2 project
 
 # ── Analysis parameters ────────────────────────────────────────────────────
-n_cores           <- 2      # threads/cores for pcair, KING, PCACorr, pcrelate
-n_pcs             <- 10     # number of PCs to correlate / plot
-snp_block_size    <- 10000  # snpBlock for GenotypeBlockIterator (pcrelate)
-sample_block_size <- 7000   # sample.block.size for pcrelate (round 1)
+n_cores           <- 2      
+n_pcs             <- 10     
+snp_block_size    <- 10000  
+sample_block_size <- 7000   
 
 # ── Output filename patterns (sprintf style) ───────────────────────────────
 # PC-pair scatter plots: %02d, %02d = the two PC numbers on the axes
@@ -155,10 +155,11 @@ if (bed_exists(pca_plink_prefix) && bed_exists(king_plink_prefix)) {
     run_plink(c(input_flag, input_pfile,
                 "--exclude", "bed1", highld_regions_file,
                 "--make-bed", "--out", prep_noHighLD))
-    maf_input <- c("--bfile", prep_noHighLD)   # maf filter reads the high-LD-removed bed
+    maf_input <- c("--bfile", prep_noHighLD)   
   } else {
+     # maf filter reads the raw input directly in case high-LD regions are kept
     message("removeHighLDregions = 'no' — keeping high-LD regions; tsv and exclusion step skipped.")
-    maf_input <- c(input_flag, input_pfile)    # maf filter reads the raw input directly
+    maf_input <- c(input_flag, input_pfile)   
   }
 
   # 2) Minor-allele-frequency filter
