@@ -10,7 +10,7 @@ library(BiocParallel)
 
 # ── Input: raw genotype data prefix — pipeline entry point ─────────────────
 input_pfile   <- "inputPfile"
-input_format  <- "pfile"   # "pfile" (pgen/pvar/psam) or "bfile" (bed/bim/fam)
+input_format  <- "pfile"   
 
 # ── Data preparation (plink2) ──────────────────────────────────────────────
 plink2_bin          <- "plink2"      
