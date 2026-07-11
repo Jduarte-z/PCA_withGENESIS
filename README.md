@@ -3,7 +3,7 @@ Pipeline to compute PCA with the R package GENESIS, with plotting and diagnostic
 
 For installing genesis and related needed packages:
 
-'''
+```
 #get things ready to run PC-Air and PC-Relate 
 conda create -n genesis_pcair \
   -c conda-forge -c bioconda \
@@ -24,5 +24,4 @@ conda create -n genesis_pcair \
 
 #activate your environment
 conda activate genesis 
-
-'''
+```
