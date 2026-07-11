@@ -13,12 +13,12 @@ input_pfile   <- "inputPfile"
 input_format  <- "pfile"   # "pfile" (pgen/pvar/psam) or "bfile" (bed/bim/fam)
 
 # ── Data preparation (plink2) ──────────────────────────────────────────────
-plink2_bin          <- "plink2"      # plink2 executable (name on PATH or full path)
-highld_regions_file <- "highLD_regions_grindeLab_hg38.tsv"  # written by this script
-maf_min             <- 0.01          # --maf minor-allele-frequency threshold
-indep_window        <- 200           # --indep-pairwise window size (variant count)
-indep_step          <- 50            # --indep-pairwise step size
-indep_r2            <- 0.2           # --indep-pairwise r^2 threshold
+plink2_bin          <- "plink2"      
+highld_regions_file <- "highLD_regions_grindeLab_hg38.tsv"  
+maf_min             <- 0.01        
+indep_window        <- 200           
+indep_step          <- 50          
+indep_r2            <- 0.2           
 
 # Optional: exclude high-LD / long-range-LD regions before PCA.
 #   "yes" -> write the regions tsv and drop those regions (extra prep step)
@@ -27,34 +27,35 @@ removeHighLDregions <- "yes"
 
 # Intermediate plink2 output prefixes. Each branch uses its own names so the
 # high-LD-removed and high-LD-kept variants never overwrite one another.
-prep_ld <- "ld"                                                        # LD prune list (-> ld.prune.out)
+prep_ld <- "ld"                                                       
 if (removeHighLDregions == "yes") {
-  prep_noHighLD <- "outBfile_noHighLD_regions"                         # high-LD regions removed
-  prep_maf      <- "outBfile_noHighLD_regions_commonVars"                # + maf filter
-  prep_pruned   <- "outBfile_noHighLD_regions_commonVars_indep-pairwise"  # + LD-pruned (for PCA)
+  prep_noHighLD <- "outBfile_noHighLD_regions"                         
+  prep_maf      <- "outBfile_noHighLD_regions_commonVars"                
+  prep_pruned   <- "outBfile_noHighLD_regions_commonVars_indep-pairwise" 
 } else {
-  prep_maf      <- "outBfile_withHighLD_regions_commonVars"               # maf filter (high-LD kept)
-  prep_pruned   <- "outBfile_withHighLD_regions_commonVars_indep-pairwise" # + LD-pruned (for PCA)
+  prep_maf      <- "outBfile_withHighLD_regions_commonVars"               
+  prep_pruned   <- "outBfile_withHighLD_regions_commonVars_indep-pairwise" 
 }
 # KING uses the raw data as bed. If the input is already bed, use it directly;
 # if it's a pfile, it is converted to this prefix in prep step 5.
 king_bed      <- if (input_format == "bfile") input_pfile else "inputPfile_bed"
 
 # ── PLINK prefixes consumed by the R analysis (derived from prep outputs) ──
-pca_plink_prefix  <- prep_pruned     # LD-pruned data -> PCA / PC-AiR / PC-Relate
-king_plink_prefix <- king_bed        # raw data (bed) -> KING / SNP-correlations
+pca_plink_prefix  <- prep_pruned     
+king_plink_prefix <- king_bed        
 
 # ── Outputs: GDS files ─────────────────────────────────────────────────────
 pca_gds  <- "onlyTyped4PCA.gds"
 king_gds <- "onlyTyped4King.gds"
 
 # ── Outputs: RDS files ─────────────────────────────────────────────────────
-king_mat_rds     <- "KINGmat_rds"                        # KING kinship matrix
-pcair_r1_rds     <- "mypcair_1round_results_rds_1stRound" # PC-AiR round 1
-pcrel_r1_rds     <- "mycprelate_1stround"                 # PC-Relate round 1
-pcrel_r1_mat_rds <- "mypcrel_1round_mat_rds"              # PC-Relate r1 as matrix
-pcair_r2_rds     <- "mypcair_r2_results_rds"              # PC-AiR round 2
-pcrel_r2_rds     <- "mypcrel_r2_rds"                      # PC-Relate round 2 (final)
+king_mat_rds     <- "KINGmat_rds"                      
+pcair_r1_rds     <- "mypcair_1round_results_rds_1stRound" 
+pcrel_r1_rds     <- "mycprelate_1stround"                 
+pcrel_r1_mat_rds <- "mypcrel_1round_mat_rds"              
+pcair_r2_rds     <- "mypcair_r2_results_rds"              
+pcrel_r2_rds     <- "mypcrel_r2_rds"                      
+#pending to make the pcrel_r2_mat_rds that is in kinship scale 2, for the h2 project
 
 # ── Analysis parameters ────────────────────────────────────────────────────
 n_cores           <- 2      # threads/cores for pcair, KING, PCACorr, pcrelate
@@ -245,7 +246,7 @@ for (i in seq(1, n_pcs - 1, by = 2)) {
 # ============================================================
 #consider that is the full dataset, no ld exclusion, no ld pruninng, no maf filtering, nothing of that
 
-####correction 7
+
 genofile <- snpgdsOpen(king_gds)
 
 chr    <- read.gdsn(index.gdsn(genofile, "snp.chromosome"))
