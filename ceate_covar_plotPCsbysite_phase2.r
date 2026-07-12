@@ -16,7 +16,8 @@ colnames(psam)[1] <- "IID"
 head(psam)
 
 # check IDs match between the two files
-sum(psam$IID %in% pcs$sample.id)   # how many psam samples have PCs
+# how many psam samples have PCs
+sum(psam$IID %in% pcs$sample.id)   
 nrow(psam)  
 
 merged <- merge(psam, pcs, by.x = "IID", by.y = "sample.id", all.x = TRUE)
